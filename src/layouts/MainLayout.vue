@@ -6,7 +6,7 @@
         <q-toolbar-title>
           <q-avatar>
             <q-icon name="fa-solid fa-square-pen" size="32px" class="text-white" />
-          </q-avatar>          
+          </q-avatar>
           Note App
         </q-toolbar-title>
       </q-toolbar>
@@ -26,6 +26,7 @@ export default defineComponent({
   name: 'MainLayout',
 
   components: {
+    
   },
 
   setup () {

@@ -1,4 +1,4 @@
-import { ref, watch, onMounted, onUnmounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted, reactive } from 'vue'
 
 const useLocalStorage = (key, defaultValue) => {
     const value = ref(defaultValue)

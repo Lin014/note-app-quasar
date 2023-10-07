@@ -8,13 +8,15 @@
         </div>
       </div>
 
-      <NoteCard 
-        v-for="({ title, description}, index) in notes"
-        :key="index"
+      <NoteCard
+        v-for="({ title, description}, idx) in notes.target"
+        :key="idx"
         :title="title"
         :description="description"
+        @click="router.push(`/note/${idx}`)"
       />
-    </NoteContainer>      
+      <div v-if="notes.length === 0">You have not created any notes.</div>
+    </NoteContainer>
   </q-page>
 </template>
 
@@ -32,6 +34,8 @@ export default defineComponent({
   setup() {
     const notes = useLocalNotes()
     const router = useRouter()
+
+    console.log(notes.value)
 
     return { notes, router }
   }
