@@ -1,14 +1,78 @@
 <template>
-    <q-page class="flex flex-center">
-        <h1>Note Page</h1>
-    </q-page>
-  </template>
-  
-  <script>
-  import { defineComponent } from 'vue'
-  
-  export default defineComponent({
-    name: 'NotePage'
-  })
-  </script>
-  
+  <q-page padding>
+    <NoteContainer>
+      <div v-if="editing">
+        <form @submit="editing = false">
+          <q-input v-model="note.title" label="Title" filled />
+          <q-input
+            v-model="note.description"
+            label="Description"
+            filled
+            class="q-mt-sm"
+            dense
+          />
+
+          <q-card flat bordered class="q-mt-sm">
+            <q-editor v-model="note.content" min-height="5rem" />
+          </q-card>
+
+          <div class="q-mt-md">
+            <q-btn class="q-ml-sm" color="positive" type="submit"> Done </q-btn>
+          </div>
+        </form>
+      </div>
+
+      <div v-else>
+        <div class="row items-center justify-between">
+          <h3 class="q-mb-md q-mt-md">{{ note.title }}</h3>
+          <div>
+            <q-btn
+              round
+              color="secondary"
+              icon="edit"
+              @click="editing = true"
+            />
+            <q-btn
+              class="q-ml-sm"
+              round
+              color="red"
+              icon="delete"
+              @click="remove"
+            />
+          </div>
+        </div>
+        <div>{{ note.description }}</div>
+        <div class="q-mt-md" v-html="note.content"></div>
+      </div>
+    </NoteContainer>
+  </q-page>
+</template>
+
+<script>
+import { useLocalNotes } from "src/helper";
+import { computed, defineComponent, ref } from "vue";
+import NoteContainer from "src/components/NoteContainer.vue";
+import { useRoute, useRouter } from "vue-router";
+
+export default defineComponent({
+  name: "NotePage",
+  components: { NoteContainer },
+
+  setup() {
+    const notes = useLocalNotes()
+    const route = useRoute()
+    const noteId = computed(() => parseInt(route.params.id))
+    const note = computed(() => notes.value[noteId.value])
+
+    const router = useRouter()
+    const remove = () => {
+      notes.value.splice(noteId.value, 1)
+      router.push('/')
+    }
+
+    const editing = ref(false)
+
+    return { note, editing, remove }
+  },
+});
+</script>

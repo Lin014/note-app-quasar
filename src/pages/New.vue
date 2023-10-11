@@ -1,5 +1,5 @@
 <template>
-     <q-page padding>
+  <q-page padding>
     <NoteContainer>
       <h3>New Note</h3>
       <form @submit="submit">
@@ -24,41 +24,41 @@
       </form>
     </NoteContainer>
   </q-page>
-  </template>
+</template>
 
-  <script>
-  import NoteContainer from 'src/components/NoteContainer.vue'
-import { defineComponent, reactive } from 'vue'
-import { useLocalNotes } from 'src/helper'
-import { useRouter } from 'vue-router'
+<script>
+import NoteContainer from "src/components/NoteContainer.vue";
+import { defineComponent, reactive } from "vue";
+import { useLocalNotes } from "src/helper";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   components: { NoteContainer },
-  name: 'PageNew',
+  name: "PageNew",
   setup() {
-    const router = useRouter()
-    const notes = useLocalNotes()
+    const router = useRouter();
+    const notes = useLocalNotes();
 
     const note = reactive({
-      title: '',
-      description: '',
-      content: ''
-    })
+      title: "",
+      description: "",
+      content: "",
+    });
 
     const submit = () => {
       notes.value.unshift({
         ...note,
         createdAt: Date.now(),
-        updatedAt: Date.now()
-      })
+        updatedAt: Date.now(),
+      });
 
-      router.push('/')
+      router.push("/");
 
-      note.title = ''
-      note.description = ''
-      note.content = ''
-    }
-    return { note, submit }
-  }
-})
-  </script>
+      note.title = "";
+      note.description = "";
+      note.content = "";
+    };
+    return { note, submit };
+  },
+});
+</script>
